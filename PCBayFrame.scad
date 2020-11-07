@@ -14,13 +14,13 @@ screwDia= 3; // Diameter of screws used, typically 3mm
 
 /* [Front Bay] */
 //  Use "short" for small front bays or plates only, else use "long"
-bayLength= "long"; // [long,short]
+bayLength= "short"; // [long,short]
 
 /* [Disk Bay] */
 // True to show a front, or false for an inner-only frame
 withFront= "yes"; // [yes,no]
 // Number of fans to install for disk bays
-numberOfFans= 0; // [0:3]
+numberOfFans= 2; // [0:3]
 fanWidth= 11;
 
 openingPattern= "yes"; // [yes,no]
@@ -72,7 +72,7 @@ F25_A23= 3; // screw height
 F25_A52= 14; // rear screw from back end
 F25_A53= 90.6; // front screw from back end
 
-shiftForFans= (menu!="FrontBay" && numberOfFans>0) ? 20 : 0; // if fans are to be used, shift disks further inwards
+shiftForFans= (/*menu!="FrontBay" &&*/ numberOfFans>0) ? 20 : 0; // if fans are to be used, shift disks further inwards
 
 F_x0= F525_A10+10 + (bayLength=="short"?0:F525_A11)+shiftForFans; // total length of inside
 bsd= (F525_A5-F35_A3)/2; // space between 5.25" and 3.5" side walls
@@ -108,19 +108,20 @@ module Menu() {
             } else if (menu=="DiskBay25") {
                 DiskBay25_add();
             }
-            if (menu!="FrontBay" && numberOfFans>0) {
+            if (/*menu!="FrontBay" &&*/ numberOfFans>0) {
                 Fan_add();
             }
         }
         // special removals for the different models
         if (menu=="FrontBay") {
-            FrontBay_rem();
+            // FrontBay_rem();
+            DiskBay25_rem();
         } if (menu=="DiskBay35") {
             DiskBay35_rem();
         } else if (menu=="DiskBay25") {
             DiskBay25_rem();
         }
-        if (menu!="FrontBay" && numberOfFans>0) {
+        if (/*menu!="FrontBay" && */numberOfFans>0) {
             Fan_rem();
         }
     }
